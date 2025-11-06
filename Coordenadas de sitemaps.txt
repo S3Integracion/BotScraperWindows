@@ -1,0 +1,15 @@
+// Sitemap 1
+x: 300
+y: 170
+
+// Sitemap 2
+x: 300
+y: 190
+
+// Sitemap 3
+x: 300
+y: 210
+
+// Sitemap 4
+x: 300
+y: 230
