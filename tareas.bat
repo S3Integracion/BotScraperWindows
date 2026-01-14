@@ -15,32 +15,32 @@ if %errorlevel% neq 0 (
 :: ===============================================
 echo Eliminando tareas programadas existentes si existen...
 
-:: Eliminar tarea AutoScrap1.exe si existe
-schtasks /query /tn "AutoScrap1.exe" >nul 2>&1
+:: Eliminar tarea Bot_Lunes.exe si existe
+schtasks /query /tn "Bot_Lunes.exe" >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Eliminando tarea existente: AutoScrap1.exe
-    schtasks /delete /tn "AutoScrap1.exe" /f
+    echo Eliminando tarea existente: Bot_Lunes.exe
+    schtasks /delete /tn "Bot_Lunes.exe" /f
 )
 
-:: Eliminar tarea AutoScrap2.exe si existe
-schtasks /query /tn "AutoScrap2.exe" >nul 2>&1
+:: Eliminar tarea Bot_Martes.exe si existe
+schtasks /query /tn "Bot_Martes.exe" >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Eliminando tarea existente: AutoScrap2.exe
-    schtasks /delete /tn "AutoScrap2.exe" /f
+    echo Eliminando tarea existente: Bot_Martes.exe
+    schtasks /delete /tn "Bot_Martes.exe" /f
 )
 
-:: Eliminar tarea AutoScrap3.exe si existe
-schtasks /query /tn "AutoScrap3.exe" >nul 2>&1
+:: Eliminar tarea Bot_Miercoles.exe si existe
+schtasks /query /tn "Bot_Miercoles.exe" >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Eliminando tarea existente: AutoScrap3.exe
-    schtasks /delete /tn "AutoScrap3.exe" /f
+    echo Eliminando tarea existente: Bot_Miercoles.exe
+    schtasks /delete /tn "Bot_Miercoles.exe" /f
 )
 
-:: Eliminar tarea AutoScrap4.exe si existe
-schtasks /query /tn "AutoScrap4.exe" >nul 2>&1
+:: Eliminar tarea Bot_Jueves.exe si existe
+schtasks /query /tn "Bot_Jueves.exe" >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Eliminando tarea existente: AutoScrap4.exe
-    schtasks /delete /tn "AutoScrap4.exe" /f
+    echo Eliminando tarea existente: Bot_Jueves.exe
+    schtasks /delete /tn "Bot_Jueves.exe" /f
 )
 
 :: ===============================================
@@ -54,8 +54,11 @@ schtasks /create /sc weekly /d MON /st 00:15 /tn "Bot_Lunes.exe" /tr "\"C:\Users
 :: Martes - Bot_Martes.exe (Activo)
 schtasks /create /sc weekly /d TUE /st 00:15 /tn "Bot_Martes.exe" /tr "\"C:\Users\Public\Documents\BotScraperWindows\Bot_Martes.exe\"" /ru "%USERNAME%" /rl HIGHEST /f
 
-:: Miércoles - Bot_Miercoles.exe (Deshabilitado inicialmente)
+:: Miércoles - Bot_Miercoles.exe (Activo)
 schtasks /create /sc weekly /d WED /st 00:15 /tn "Bot_Miercoles.exe" /tr "\"C:\Users\Public\Documents\BotScraperWindows\Bot_Miercoles.exe\"" /ru "%USERNAME%" /rl HIGHEST /f
+
+:: Jueves - Bot_Jueves.exe (Activo)
+schtasks /create /sc weekly /d THU /st 00:15 /tn "Bot_Jueves.exe" /tr "\"C:\Users\Public\Documents\BotScraperWindows\Bot_Jueves.exe\"" /ru "%USERNAME%" /rl HIGHEST /f
 
 echo.
 echo ===============================================

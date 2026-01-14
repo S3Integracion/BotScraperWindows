@@ -516,14 +516,14 @@ int main() {
     }
     press_key_with_verification(VK_TAB);
     
-    // Ingresar "4500"
+    // Ingresar "6000"
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para ingresar 4500");
+        log_message("Error: No se pudo activar la ventana para ingresar 6000");
         close_log();
         return 1;
     }
-    press_key_with_verification(0x34); // 4
-    press_key_with_verification(0x35); // 5
+    press_key_with_verification(0x36); // 6
+    press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
     
@@ -535,13 +535,13 @@ int main() {
     }
     press_key_with_verification(VK_TAB);
     
-    // Ingresar "5000"
+    // Ingresar "7000"
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para ingresar 5000");
+        log_message("Error: No se pudo activar la ventana para ingresar 7000");
         close_log();
         return 1;
     }
-    press_key_with_verification(0x35); // 5
+    press_key_with_verification(0x37); // 7
     press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
