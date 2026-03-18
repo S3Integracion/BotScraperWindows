@@ -19,7 +19,7 @@
 #define SCRAPE_BTN_Y 160
 
 // Tiempos de espera en milisegundos
-#define WAIT_TIME 5000
+#define WAIT_TIME 10000
 #define CLICK_DURATION 1000
 #define KEY_DURATION 1000
 
@@ -469,7 +469,7 @@ int main() {
         close_log();
         return 1;
     }
-    click_with_verification(916, 40);
+    click_with_verification(840, 40);
     Sleep(WAIT_TIME);
     
     // Click en el primer botón de sitemap

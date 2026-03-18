@@ -43,6 +43,13 @@ if %errorlevel% equ 0 (
     schtasks /delete /tn "Bot_Jueves.exe" /f
 )
 
+:: Eliminar tarea Bot_Jueves.exe si existe
+schtasks /query /tn "Bot_Viernes.exe" >nul 2>&1
+if %errorlevel% equ 0 (
+    echo Eliminando tarea existente: Bot_Viernes.exe
+    schtasks /delete /tn "Bot_Viernes.exe" /f
+)
+
 :: ===============================================
 :: CREACION DE TAREAS PROGRAMADAS
 :: ===============================================
@@ -59,6 +66,9 @@ schtasks /create /sc weekly /d WED /st 00:15 /tn "Bot_Miercoles.exe" /tr "\"C:\U
 
 :: Jueves - Bot_Jueves.exe (Activo)
 schtasks /create /sc weekly /d THU /st 00:15 /tn "Bot_Jueves.exe" /tr "\"C:\Users\Public\Documents\BotScraperWindows\Bot_Jueves.exe\"" /ru "%USERNAME%" /rl HIGHEST /f
+
+:: Viernes - Bot_Viernes.exe (Activo)
+schtasks /create /sc weekly /d FRI /st 00:15 /tn "Bot_Viernes.exe" /tr "\"C:\Users\Public\Documents\BotScraperWindows\Bot_Viernes.exe\"" /ru "%USERNAME%" /rl HIGHEST /f
 
 echo.
 echo ===============================================
