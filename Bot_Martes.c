@@ -560,6 +560,7 @@ int main() {
         close_log();
         return 1;
     }
+    press_key_combination(VK_SPACE);
     click_with_verification(215, 150);
     
     // Esperar a que comience el scraping

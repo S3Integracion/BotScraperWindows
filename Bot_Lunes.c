@@ -535,7 +535,7 @@ int main() {
     }
     press_key_with_verification(VK_TAB);
     
-    // Ingresar "5000"
+    // Ingresar "7000"
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
         log_message("Error: No se pudo activar la ventana para ingresar 5000");
         close_log();
@@ -560,6 +560,7 @@ int main() {
         close_log();
         return 1;
     }
+    press_key_combination(VK_SPACE);
     click_with_verification(215, 150);
     
     // Esperar a que comience el scraping
