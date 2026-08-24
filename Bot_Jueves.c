@@ -522,7 +522,7 @@ int main() {
         close_log();
         return 1;
     }
-    press_key_with_verification(0x36); // 6
+    press_key_with_verification(0x35); // 5
     press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
@@ -541,8 +541,8 @@ int main() {
         close_log();
         return 1;
     }
-    press_key_with_verification(0x37); // 7
-    press_key_with_verification(0x30); // 0
+    press_key_with_verification(0x34); // 4
+    press_key_with_verification(0x35); // 5
     press_key_with_verification(0x30); // 0
     press_key_with_verification(0x30); // 0
     
@@ -560,7 +560,7 @@ int main() {
         close_log();
         return 1;
     }
-    press_key_combination(VK_SPACE);
+    press_key_with_verification(VK_SPACE);
     click_with_verification(215, 150);
     
     // Esperar a que comience el scraping
