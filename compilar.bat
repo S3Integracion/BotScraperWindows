@@ -1,6 +1,6 @@
 @echo off
     echo Compilando...
 
-    gcc Bot_Lunes.c -o Bot_Lunes.exe && gcc Bot_Martes.c -o Bot_Martes.exe &&  gcc Bot_Miercoles.c -o Bot_Miercoles.exe && gcc Bot_Jueves.c -o Bot_Jueves.exe && gcc Bot_Viernes.c -o Bot_Viernes.exe
+    gcc Bot_Sitemap1.c -o Bot_Sitemap1.exe && gcc Bot_Sitemap2.c -o Bot_Sitemap2.exe && gcc Bot_Sitemap3.c -o Bot_Sitemap3.exe && gcc Bot_Sitemap4.c -o Bot_Sitemap4.exe && gcc Bot_Sitemap5.c -o Bot_Sitemap5.exe
 
 echo Compilación completada.

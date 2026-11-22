@@ -1,15 +1,49 @@
-// Sitemap 1
-x: 300
-y: 170
+// Coordenadas de pantalla (1920x1080, DevTools desacoplado y maximizado)
+// Web Scraper v1.114. Válidas para la interfaz en inglés y en español. Actualizadas 2026-11-21.
 
-// Sitemap 2
-x: 300
-y: 190
+// Aviso "DevTools is now available in Spanish" -> "Don't show again"
+// (si no aparece, el click cae en la pestaña Performance)
+x: 365
+y: 47
 
-// Sitemap 3
-x: 300
-y: 210
+// Pestaña Web Scraper (barra de pestañas de DevTools)
+x: 931
+y: 41
 
-// Sitemap 4
+// Botón "Sitemaps"
+x: 52
+y: 70
+
+// Sitemap 1 (Bot_Sitemap1)
 x: 300
-y: 230
+y: 186
+
+// Sitemap 2 (Bot_Sitemap2)
+x: 300
+y: 219
+
+// Sitemap 3 (Bot_Sitemap3)
+x: 300
+y: 252
+
+// Sitemap 4 (Bot_Sitemap4)
+x: 300
+y: 285
+
+// Sitemap 5 (Bot_Sitemap5)
+x: 300
+y: 318
+
+// Opción "Extraer datos" / "Scrape" (inglés: x 264-352, español: x 293-420)
+x: 322
+y: 70
+
+// Lista "Intervalo de solicitud" / "Request interval" (x: 960, y: 117) -> opción "5s" (x: 300, y: 265)
+// opciones: 2s=159, 3s=194, 4s=229, 5s=265, 10s=300, 15s=335, 20s=370, 30s=405
+
+// Lista "Retraso de carga de página" / "Page load delay" (x: 960, y: 161) -> opción "4s" (x: 300, y: 273)
+// opciones: 2s=203, 3s=238, 4s=273, 5s=309, 10s=344, 15s=379, 20s=414, 30s=449, 45s=485
+
+// Botón "Iniciar extracción de datos" / "Start scraping" (inglés: x 13-146, español: x 13-223)
+x: 117
+y: 204

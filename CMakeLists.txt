@@ -5,9 +5,8 @@ set(CMAKE_C_STANDARD 11)
 
 include_directories(.)
 
-add_executable(BotScraperWindows
-        Bot_Jueves.c
-        Bot_Lunes.c
-        Bot_Martes.c
-        Bot_Miercoles.c
-        Bot_Viernes.c)
+add_executable(Bot_Sitemap1 Bot_Sitemap1.c)
+add_executable(Bot_Sitemap2 Bot_Sitemap2.c)
+add_executable(Bot_Sitemap3 Bot_Sitemap3.c)
+add_executable(Bot_Sitemap4 Bot_Sitemap4.c)
+add_executable(Bot_Sitemap5 Bot_Sitemap5.c)

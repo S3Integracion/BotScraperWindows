@@ -18,6 +18,11 @@
 #define SCRAPE_BTN_X 980
 #define SCRAPE_BTN_Y 160
 
+// Sitemap al que apunta este bot (fila 3 de la lista de Web Scraper)
+#define SITEMAP_NUMBER 3
+#define SITEMAP_X 300
+#define SITEMAP_Y 252
+
 // Tiempos de espera en milisegundos
 #define WAIT_TIME 10000
 #define CLICK_DURATION 1000
@@ -257,6 +262,22 @@ BOOL press_key_combination(WORD* keys, int keyCount) {
     return TRUE;
 }
 
+// Escribe texto rápidamente (solo letras minúsculas, dígitos y espacios)
+void type_text_fast(const char* text) {
+    log_message("Escribiendo texto: %s", text);
+    for (const char* p = text; *p; p++) {
+        WORD vk = 0;
+        if (*p >= 'a' && *p <= 'z') vk = (WORD)(*p - 'a' + 'A');
+        else if (*p >= '0' && *p <= '9') vk = (WORD)*p;
+        else if (*p == ' ') vk = VK_SPACE;
+        if (vk == 0) continue;
+        simulate_key(vk, 0);
+        Sleep(80);
+        simulate_key(vk, KEYEVENTF_KEYUP);
+        Sleep(80);
+    }
+}
+
 // Función para hacer click con verificación
 BOOL click_with_verification(int x, int y) {
     // Guardar posición original del cursor
@@ -282,6 +303,12 @@ BOOL click_with_verification(int x, int y) {
     GetCursorPos(&currentPos);
     
     return (currentPos.x == x && currentPos.y == y);
+}
+
+// Abre una lista desplegable y elige una opción haciendo click en ella
+void select_dropdown_option(int fieldX, int fieldY, int optionX, int optionY) {
+    click_with_verification(fieldX, fieldY);
+    click_with_verification(optionX, optionY);
 }
 
 // Función para presionar Ctrl + Shift + P con verificación
@@ -382,11 +409,25 @@ BOOL maximize_window() {
 
 BOOL open_devtools() {
     WORD keys[] = {VK_CONTROL, VK_SHIFT, 0x4A}; // Ctrl + Shift + J
-    BOOL result = press_key_combination(keys, 3);
-    
+    press_key_combination(keys, 3);
+
     // Esperar a que se abra DevTools
     Sleep(WAIT_TIME);
-    
+
+    if (is_window_active("Chrome_WidgetWin_1", "DevTools")) {
+        return TRUE;
+    }
+
+    // Las versiones nuevas de Chrome abren DevTools acoplado (dentro de la
+    // ventana del navegador). Se desacopla con el menú de comandos:
+    // Ctrl + Shift + P -> "undock" -> Enter ("Undock into separate window")
+    log_message("DevTools está acoplado. Desacoplando con el menú de comandos...");
+    WORD cmdKeys[] = {VK_CONTROL, VK_SHIFT, 0x50}; // Ctrl + Shift + P
+    press_key_combination(cmdKeys, 3);
+    type_text_fast("undock");
+    Sleep(2000);
+    press_key_with_verification(VK_RETURN);
+
     // Verificar que estamos en DevTools
     return is_window_active("Chrome_WidgetWin_1", "DevTools");
 }
@@ -400,7 +441,7 @@ int main() {
     // Inicializar el archivo de log
     init_log();
     
-    log_message("Iniciando proceso de scraping...");
+    log_message("Iniciando proceso de scraping del sitemap %d...", SITEMAP_NUMBER);
 
     // Cerrar todas las ventanas de Chrome existentes
     log_message("Cerrando ventanas de Chrome existentes...");
@@ -454,13 +495,14 @@ int main() {
     // Secuencia de clicks para configurar el scraping
     // Cada click se hace con verificación y tiempo de espera
     
-    // Click en el botón inspeccionar
+    // Cerrar el aviso "DevTools is now available in Spanish" (botón "Don't show again").
+    // Si el aviso no aparece, este click cae en la pestaña Performance (inofensivo).
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
         log_message("Error crítico: No se pudo activar la ventana de DevTools");
         close_log();
         return 1;
     }
-    click_with_verification(170, 523);
+    click_with_verification(365, 47);
     Sleep(WAIT_TIME);
     
     // Click en la pestaña de web scraper
@@ -469,110 +511,71 @@ int main() {
         close_log();
         return 1;
     }
-    click_with_verification(840, 40);
+    click_with_verification(931, 41);
     Sleep(WAIT_TIME);
     
-    // Click en el primer botón de sitemap
+    // Click en el botón "Sitemaps" (regresa a la lista de sitemaps)
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
         log_message("Error: No se pudo activar la ventana para el botón de sitemap");
         close_log();
         return 1;
     }
-    click_with_verification(50, 58);
+    click_with_verification(52, 70);
     Sleep(WAIT_TIME);
-    
-    // Click en el primer sitemap
+
+    // Click en el sitemap 3 de la lista
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
         log_message("Error: No se pudo activar la ventana para seleccionar el sitemap");
         close_log();
         return 1;
     }
-    click_with_verification(300, 230);
+    click_with_verification(SITEMAP_X, SITEMAP_Y);
     Sleep(WAIT_TIME);
-    
-    // Click en el menú scrap
+
+    // Click en la opción "Extraer datos" / "Scrape" del menú del sitemap.
+    // x=322 cae dentro del botón en ambos idiomas (inglés: 264-352, español: 293-420)
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para el menú scrap");
+        log_message("Error: No se pudo activar la ventana para Extraer datos");
         close_log();
         return 1;
     }
-    click_with_verification(152, 67);
+    click_with_verification(322, 70);
     Sleep(WAIT_TIME);
-    
-    // Click en start scrap
+
+    // "Intervalo de solicitud" = 5s (lista desplegable)
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para iniciar scrap");
+        log_message("Error: No se pudo activar la ventana para el Intervalo de solicitud");
         close_log();
         return 1;
     }
-    click_with_verification(173, 179);
-    Sleep(WAIT_TIME);
-    
-    // Presionar Tab
+    select_dropdown_option(960, 117, 300, 265); // opción "5s"
+
+    // "Retraso de carga de página" = 4s (lista desplegable)
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para presionar Tab");
+        log_message("Error: No se pudo activar la ventana para el Retraso de carga de página");
         close_log();
         return 1;
     }
-    press_key_with_verification(VK_TAB);
-    
-    // Ingresar "4500"
+    select_dropdown_option(960, 161, 300, 273); // opción "4s"
+
+    // Click en el botón "Iniciar extracción de datos" / "Start scraping"
     if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para ingresar 4500");
+        log_message("Error: No se pudo activar la ventana para iniciar la extracción");
         close_log();
         return 1;
     }
-    press_key_with_verification(0x36); // 6
-    press_key_with_verification(0x30); // 0
-    press_key_with_verification(0x30); // 0
-    press_key_with_verification(0x30); // 0
-    
-    // Presionar Tab
-    if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para presionar Tab");
-        close_log();
-        return 1;
-    }
-    press_key_with_verification(VK_TAB);
-    
-    // Ingresar "5000"
-    if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para ingresar 5000");
-        close_log();
-        return 1;
-    }
-    press_key_with_verification(0x37); // 7
-    press_key_with_verification(0x30); // 0
-    press_key_with_verification(0x30); // 0
-    press_key_with_verification(0x30); // 0
-    
-    // Presionar Tab
-    if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para presionar Tab");
-        close_log();
-        return 1;
-    }
-    press_key_with_verification(VK_TAB);
-    
-    // Click en start scrap final
-    if (!activate_window("Chrome_WidgetWin_1", "DevTools")) {
-        log_message("Error: No se pudo activar la ventana para el start scrap final");
-        close_log();
-        return 1;
-    }
-    press_key_combination(VK_SPACE);
-    click_with_verification(215, 150);
+    click_with_verification(117, 204);
     
     // Esperar a que comience el scraping
     log_message("Scraping iniciado. Esperando 20 segundos...");
     Sleep(20000);
-
+    
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /*
+
     log_message("Iniciando VMware Workstation...");
-    
 
     //Validar que no exista una instancia activa del programa
     // En caso de haberla, no abrir una nueva y hacer tab y enter
@@ -639,4 +642,3 @@ int main() {
     return 0;
 
 }
-
